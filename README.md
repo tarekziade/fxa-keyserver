@@ -6,12 +6,12 @@ Public key server for FxA
 
 # API Endpoints
 
-* Account
-    * [POST /v1/<email>/keys/<fingerprint> (:lock: keyFetchToken) (verf-required)](#post-v1keyscreate)
-    * [GET  /v1/<email>/keys](#get-v1accountkeys)
+
+* [POST /v1/\<email\>/keys/\<fingerprint\> (:lock: keyFetchToken) (verf-required)](#post-v1emailkeysfingerprint)
+* [GET  /v1/\<email\>/keys](#get-v1emailkeys)
 
 
-## POST /v1/<email>/keys/<name>
+## POST /v1/\<email\>/keys/\<fingerprint\>
 
 Adds a key to the specified FxA email.
 
@@ -58,7 +58,7 @@ Successful requests will produce a "200 OK" response with the FxA account's uniq
 }
 ```
 
-## GET /v1/<email>/keys
+## GET /v1/\<email\>/keys
 
 Returns a list of all public keys associated with a e-mail, sorted by date.
 
@@ -87,7 +87,7 @@ order by creation date.
 }
 ```
 
-## GET /v1/<email>/keys/<fingerprint>
+## GET /v1/\<email\>/keys/\<fingerprint\>
 
 Returns the public key associated with the e-mail.
 
