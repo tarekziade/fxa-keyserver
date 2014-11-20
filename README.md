@@ -111,8 +111,7 @@ and Mozilla signature.
 
 ```json
 {
-"key": "
------BEGIN PGP PUBLIC KEY BLOCK-----
+"key": "-----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1
 
 mQINBFRf+wcBEADirtAVu9DEMifLfZwmez459hscKk4Cp8a3XQ0dh2I47As4zd6I
@@ -121,7 +120,8 @@ FONkxOUCLc+sy9O742Qu1WhkaJyaTJeork7Prs9lPO0DTNvangGLfm10hZ19e1Ad
 tgXvJMskUbO8n3nsXznqTLOEeweDR7NQQz3Gv691DovL9hvwFPau3NmJWcJPCwc2
 TibjWWN7342
 ...
-=EVSy",
+=EVSy
+-----END PGP PUBLIC KEY BLOCK-----",
 "cert": "xxx"
------END PGP PUBLIC KEY BLOCK-----
+}
 ```
