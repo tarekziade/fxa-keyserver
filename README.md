@@ -89,7 +89,9 @@ order by creation date.
 
 ## GET /v1/\<email\>/keys/\<fingerprint\>
 
-Returns the public key associated with the e-mail.
+Returns the public key associated with the e-mail, and signed by Mozilla.
+
+XXX
 
 
 ### Request
@@ -103,9 +105,13 @@ https://host/v1/tarek@mozilla.com/keys/65E4-0D24-CEF9-5E85-DF41-6484-D260-D234-9
 
 ### Response
 
-Successful requests will produce a "200 OK" response with the raw GPG key in the body.
+Successful requests will produce a "200 OK" response with the GPG key in the body,
+and Mozilla signature.
 
-```
+
+```json
+{
+"key": "
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1
 
@@ -115,6 +121,7 @@ FONkxOUCLc+sy9O742Qu1WhkaJyaTJeork7Prs9lPO0DTNvangGLfm10hZ19e1Ad
 tgXvJMskUbO8n3nsXznqTLOEeweDR7NQQz3Gv691DovL9hvwFPau3NmJWcJPCwc2
 TibjWWN7342
 ...
-=EVSy
+=EVSy",
+"cert": "xxx"
 -----END PGP PUBLIC KEY BLOCK-----
 ```
