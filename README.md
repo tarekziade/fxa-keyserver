@@ -7,7 +7,7 @@ Public key server for FxA
 # API Endpoints
 
 
-* [POST /v1/\<email\>/keys/\<fingerprint\> (:lock: keyFetchToken) (verf-required)](#post-v1emailkeysfingerprint)
+* [POST /v1/\<email\>/keys/\<fingerprint\> (:lock: HAWK) (verf-required)](#post-v1emailkeysfingerprint)
 * [GET  /v1/\<email\>/keys](#get-v1emailkeys)
 
 
