@@ -58,16 +58,15 @@ The currently-defined error responses are:
 ## API Endpoints
 
 
-- [GET /v1/search][search]
-- [GET /v1/users/:uid/keys][keys]
-- [GET /v1/users/:uid/key/:fingerprint][key]
-- [POST /v1/users/:uid/key/:fingerprint (:lock: BearerToken)][post]
-- [DELETE /v1/users/:uid/key/:fingerprint (:lock: BearerToken)][delete]
+- [GET /v1/search](#get-v1search)
+- [GET /v1/users/:uid/keys](#get-v1usersuidkeys)
+- [GET /v1/users/:uid/key/:fingerprint](#get-v1usersuidkeysfingerprint)
+- [POST /v1/users/:uid/key/:fingerprint (:lock: BearerToken)](#post-v1usersuidkeysfingerprint)
+- [DELETE /v1/users/:uid/key/:fingerprint (:lock: BearerToken)](#delete-v1usersuidkeysfingerprint)
 
 
 ### GET /v1/search
 
-- scope: `search`
 
 Search for a user. 
 
@@ -78,33 +77,26 @@ __Parameters__
 
 ### GET /v1/users/:uid/keys
 
-- scope: `keys`
 
 Lists all keys for an uid - ordered by creation date.
 
 ### GET /v1/users/:uid/keys/:fingerprint
 
-- scope: `key`
 
 Retrieves a user's key
 
 ### GET /v1/users/:uid/keys/:fingerprint
 
-- scope: `post`
 
 Adds a key
 
 
 ### DELETE /v1/users/:uid/keys/:fingerprint
 
-- scope: `delete`
 
 Deletes a user's key
 
 
-[keys]: #get-v1usersuidkeys
-[key]: #get-v1usersuidkeysfingerprint
-[delete]: #delete-v1usersuidkeysfingerprint
-[post]: #post-v1usersuidkeysfingerprint
+
 [OAuth]: https://github.com/mozilla/fxa-oauth-server
 
