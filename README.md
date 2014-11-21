@@ -58,40 +58,53 @@ The currently-defined error responses are:
 ## API Endpoints
 
 
-- [GET /v1/:email/keys]
-- [GET /v1/:email/key/:fingerprint]
-- [DELETE /v1/:email/key/:fingerprint]
-- [POST /v1/:email/key/:fingerprint]
+- [GET /v1/search][search]
+- [GET /v1/users/:uid/keys][keys]
+- [GET /v1/users/:uid/key/:fingerprint][key]
+- [POST /v1/users/:uid/key/:fingerprint (:lock: BearerToken)][post]
+- [DELETE /v1/users/:uid/key/:fingerprint (:lock: BearerToken)][delete]
 
-### GET /v1/:email/keys
+
+### GET /v1/search
+
+- scope: `search`
+
+Search for a user. 
+
+__Parameters__
+
+- **email** email to look for.
+
+
+### GET /v1/users/:uid/keys
 
 - scope: `keys`
 
-Lists all keys for an e-mail - ordered by creation date.
+Lists all keys for an uid - ordered by creation date.
 
-### GET /v1/:email/keys/:fingerprint
+### GET /v1/users/:uid/keys/:fingerprint
 
 - scope: `key`
 
 Retrieves a user's key
 
-### GET /v1/:email/keys/:fingerprint
+### GET /v1/users/:uid/keys/:fingerprint
 
 - scope: `post`
 
 Adds a key
 
 
-### DELETE /v1/:email/keys/:fingerprint
+### DELETE /v1/users/:uid/keys/:fingerprint
 
 - scope: `delete`
 
 Deletes a user's key
 
 
-[keys]: #get-v1emailkeys
-[key]: #get-v1emailkeysfingerprint
-[delete]: #delete-v1emailkeysfingerprint
-[post]: #post-v1emailkeysfingerprint
+[keys]: #get-v1uidkeys
+[key]: #get-v1uidkeysfingerprint
+[delete]: #delete-v1uidkeysfingerprint
+[post]: #post-v1uidkeysfingerprint
 [OAuth]: https://github.com/mozilla/fxa-oauth-server
 
