@@ -102,9 +102,9 @@ Adds a key
 Deletes a user's key
 
 
-[keys]: #get-v1uidkeys
-[key]: #get-v1uidkeysfingerprint
-[delete]: #delete-v1uidkeysfingerprint
-[post]: #post-v1uidkeysfingerprint
+[keys]: #get-v1usersuidkeys
+[key]: #get-v1usersuidkeysfingerprint
+[delete]: #delete-v1usersuidkeysfingerprint
+[post]: #post-v1usersuidkeysfingerprint
 [OAuth]: https://github.com/mozilla/fxa-oauth-server
 
