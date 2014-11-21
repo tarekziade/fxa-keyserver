@@ -1,127 +1,97 @@
 fxa-keyserver
 =============
 
-Public key server for FxA
 
+# Firefox Accounts Key Server API
 
-# API Endpoints
+## Overview
 
+### URL Structure
 
-* [POST /v1/\<email\>/keys/\<fingerprint\> (:lock: HAWK) (verf-required)](#post-v1emailkeysfingerprint)
-* [GET  /v1/\<email\>/keys](#get-v1emailkeys)
-
-
-## POST /v1/\<email\>/keys/\<fingerprint\>
-
-Adds a key to the specified FxA email.
-
-___Parameters___
-
-* email - the primary email for this account
-* fingerprint - the fingerprint of the key
-
-The body contains the raw GPG public key.
-
-A key can be attached to several e-mails, but it has to be linked through
-a POST call for each e-mail.
-
-### Request
-
-```sh
-curl -v \
--X POST \
--H "Content-Type: application/json" \
-"https://host/v1/tarek@mozilla.com/keys/65E4-0D24-CEF9-5E85-DF41-6484-D260-D234-9E58-FF96" \
--H 'Authorization: Hawk id="d4c5b1e3f5791ef83896c27519979b93a45e6d0da34c7509c5632ac35b28b48d", ts="1373391043", nonce="ohQjqb", mac="LAnpP3P2PXelC6hUoUaHP72nCqY5Iibaa3eeiGBqIIU="' \
--d '
------BEGIN PGP PUBLIC KEY BLOCK-----
-Version: GnuPG v1
-
-mQINBFRf+wcBEADirtAVu9DEMifLfZwmez459hscKk4Cp8a3XQ0dh2I47As4zd6I
-FONkxOUCLc+sy9O742Qu1WhkaJyaTJeork7Prs9lPO0DTNvangGLfm10hZ19e1Ad
-/mKTk31ZipWYId70bAVtk/JSbDrrIeVaGdE+Ttz2hrKlqVQDEQGA4Jspj3Dp/n2/
-tgXvJMskUbO8n3nsXznqTLOEeweDR7NQQz3Gv691DovL9hvwFPau3NmJWcJPCwc2
-TibjWWN7342
-...
-=EVSy
------END PGP PUBLIC KEY BLOCK-----
-'
+```
+https://<server-url>/v1/<api-endpoint>
 ```
 
-### Response
+Note that:
 
-Successful requests will produce a "200 OK" response with the FxA account's unique identifier in the JSON body:
+- All API access must be over HTTPS
+- The URL embeds a version identifier "v1"; future revisions of this API may introduce new version numbers.
+- The base URL of the server may be configured on a per-client basis
 
-```json
+### Authorization
+
+Most endpoints that return user data require authorization from the [OAuth][]
+server. After a bearer token is received for the user, you can pass it to these
+endpoints as a header:
+
+```
+Authorization: Bearer 558f9980ad5a9c279beb52123653967342f702e84d3ab34c7f80427a6a37e2c0
+```
+
+Some endpoints may require certain scopes as well; these will be listed in each endpoint. The general scope `profile` automatically has all scopes for this server.
+
+### Errors
+
+Invalid requests will return 4XX responses. Internal failures will return 5XX. Both will include JSON responses describing the error.
+
+Example error:
+
+```js
 {
-  "uid": "4c352927cd4f4a4aa03d7d1893d950b8"
+  "code": 400, // matches the HTTP status code
+  "errno": 101, // stable application-level error number
+  "error": "Bad Request", // string description of error type
+  "message": "Unknown client"
 }
 ```
 
-## GET /v1/\<email\>/keys
+The currently-defined error responses are:
 
-Returns a list of all public keys associated with a e-mail, sorted by date.
+- status code, errno: description
+- 403, 100: Unauthorized
+- 400, 101: Invalid request parameter
+- 400, 102: Unsupported image provider
+- 500, 103: Image processing error
+- 503, 104: OAuth service unavailable
+- 500, 999: internal server error
 
-
-### Request
-
-```sh
-curl -v \
--X GET \
--H "Content-Type: application/json" \
-https://host/v1/tarek@mozilla.com/keys
-```
-
-### Response
-
-Successful requests will produce a "200 OK" response with the FxA account's list of fingerprint keys
-order by creation date.
-
-```json
-{
-  "keys": [
-    {"createdAt": 1392144866, 
-     "fingerprint": "65E4-0D24-CEF9-5E85-DF41-6484-D260-D234-9E58-FF96"
-     }
-  ]
-}
-```
-
-## GET /v1/\<email\>/keys/\<fingerprint\>
-
-Returns the public key associated with the e-mail, and signed by Mozilla.
-
-XXX
+## API Endpoints
 
 
-### Request
+- [GET /v1/:email/keys]
+- [GET /v1/:email/key/:fingerprint]
+- [DELETE /v1/:email/key/:fingerprint]
+- [POST /v1/:email/key/:fingerprint]
 
-```sh
-curl -v \
--X GET \
--H "Content-Type: application/json" \
-https://host/v1/tarek@mozilla.com/keys/65E4-0D24-CEF9-5E85-DF41-6484-D260-D234-9E58-FF96
-```
+### GET /v1/:email/keys
 
-### Response
+- scope: `keys`
 
-Successful requests will produce a "200 OK" response with the GPG key in the body,
-and Mozilla signature.
+Lists all keys for an e-mail - ordered by creation date.
+
+### GET /v1/:email/keys/:fingerprint
+
+- scope: `key`
+
+Retrieves a user's key
+
+### GET /v1/:email/keys/:fingerprint
+
+- scope: `post`
+
+Adds a key
 
 
-```json
-{
-"key": "-----BEGIN PGP PUBLIC KEY BLOCK-----
-Version: GnuPG v1
+### DELETE /v1/:email/keys/:fingerprint
 
-mQINBFRf+wcBEADirtAVu9DEMifLfZwmez459hscKk4Cp8a3XQ0dh2I47As4zd6I
-FONkxOUCLc+sy9O742Qu1WhkaJyaTJeork7Prs9lPO0DTNvangGLfm10hZ19e1Ad
-/mKTk31ZipWYId70bAVtk/JSbDrrIeVaGdE+Ttz2hrKlqVQDEQGA4Jspj3Dp/n2/
-tgXvJMskUbO8n3nsXznqTLOEeweDR7NQQz3Gv691DovL9hvwFPau3NmJWcJPCwc2
-TibjWWN7342
-...
-=EVSy
------END PGP PUBLIC KEY BLOCK-----",
-"cert": "xxx"
-}
-```
+- scope: `delete`
+
+Deletes a user's key
+
+
+[keys]: #get-v1emailkeys
+[key]: #get-v1emailkeysfingerprint
+[delete]: #delete-v1emailkeysfingerprint
+[post]: #post-v1emailkeysfingerprint
+[OAuth]: https://github.com/mozilla/fxa-oauth-server
+
