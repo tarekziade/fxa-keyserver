@@ -1,7 +1,3 @@
-fxa-keyserver
-=============
-
-
 # Firefox Accounts Key Server API
 
 ## Overview
@@ -50,8 +46,6 @@ The currently-defined error responses are:
 - status code, errno: description
 - 403, 100: Unauthorized
 - 400, 101: Invalid request parameter
-- 400, 102: Unsupported image provider
-- 500, 103: Image processing error
 - 503, 104: OAuth service unavailable
 - 500, 999: internal server error
 
